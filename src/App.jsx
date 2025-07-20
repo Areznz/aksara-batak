@@ -1,33 +1,58 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import About from './pages/About';
+import Belajar from './pages/Belajar';
+import Home from './pages/Home';
+import Pengenalan from './pages/Pengenalan';
+import Teks from './pages/Teks';
+import Latihan from './pages/Latihan';
+import Navbar from './components/Navbar';
+import { motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion';
+
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+
+function AppWrapper() {
+
+const location = useLocation()
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <Navbar />
+      <AnimatePresence mode='wait'>
+        <motion.div 
+          key={location.pathname}
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/pengenalan" element={<Pengenalan />} />
+              <Route path="/belajar" element={<Belajar />} />
+              <Route path="/latihan" element={<Latihan />} />
+              <Route path="/teks" element={<Teks />} />
+              <Route path="/about" element={<About />} />
+            </Routes>
+        </motion.div>
+      </AnimatePresence>
+    
+    
+    </>
+  )
+}
+
+function App() {
+ 
+
+  return (
+    <>
+      <Router>
+        <AppWrapper/>
+      </Router>
     </>
   )
 }
